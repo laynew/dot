@@ -1,0 +1,13 @@
+!#/bin/sh
+
+xrdb -merge $HOME/.Xresources &
+xrdbpid=$!
+
+WALLPAPER=$HOME/wallpaper.jpg
+[ -r "$WALLPAPER" ] && xwallpaper --tile $HOME/wallpaper.jpg --no-randr
+
+xrandr --dpi 192
+
+pidof -sx xcompmgr || xcompmgr &
+
+[ -n "$xrdbpid" ] && wait $xrdbpid
