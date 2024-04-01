@@ -6,6 +6,7 @@ xrdbpid=$!
 WALLPAPER=$HOME/wallpaper.jpg
 [ -r "$WALLPAPER" ] && xwallpaper --tile $HOME/wallpaper.jpg --no-randr
 
+[ -n "$(which autorefreshstatus)" ] && autorefreshstatus &
 xrandr --dpi 192
 
 pidof -sx xcompmgr || xcompmgr &
