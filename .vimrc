@@ -1,3 +1,5 @@
+syntax on
+
 if &term =~ '256color'
     set t_ut=
 endif
@@ -6,10 +8,16 @@ set encoding=utf-8
 
 set background=dark
 set nohlsearch
+set hidden
 set incsearch
+set laststatus=2
+set list
+set listchars=tab:\\u21a6\ ,trail:\\xb7
 set number
 set relativenumber
 set scrolloff=8
+set splitbelow
+set splitright
 set tags+=~/.local/share/tags
 
 set tabstop=4
@@ -19,6 +27,7 @@ set expandtab
 
 set smartindent
 set path+=**
+set wildignore=.git/*
 set wildmenu
 
 let g:mapleader = " "
