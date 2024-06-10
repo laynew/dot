@@ -1,0 +1,22 @@
+source ~/.vimrc
+
+set ideajoin
+set showmode
+
+nnoremap <Leader>vce :e ~/.ideavimrc<CR>
+nnoremap <Leader>vcr :source ~/.ideavimrc<CR>
+
+nmap <Leader>h <Action>(PreviousTab)
+nmap <Leader>l <Action>(NextTab)
+vmap <Leader>h <Action>(PreviousTab)
+vmap <Leader>l <Action>(NextTab)
+
+map <Leader>a <Action>(Annotate)
+map <Leader>b <Action>(ToggleLineBreakpoint)
+" map <Leader>h <Action>(Vcs.ShowTabbedFileHistory)
+map <Leader>o <Action>(FileStructurePopup)
+map <Leader>r <Action>(RenameElement)
+map <Leader>v <Action>(IntroduceVariable)
+map <Leader>z <Action>(ToggleDistractionFreeMode)
+
+map <S-Space> <Action>(GotoNextError)
