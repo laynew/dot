@@ -59,5 +59,9 @@ vmap <Leader>y "+y
 nmap <Leader>d "+dd
 vmap <Leader>d "+d
 
+" Buffers
+nmap <Leader>bn :bnext<CR>
+nmap <Leader>bd :bdelete<CR>
+
 " Disable Ex mode
 map Q gq
