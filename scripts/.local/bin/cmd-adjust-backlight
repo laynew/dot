@@ -1,0 +1,55 @@
+#!/bin/bash
+
+usage() {
+    echo "Set the brightness for backlight device"
+    echo "Usage: $(basename "$0") (+|-)#"
+}
+
+[ -z "$1" ] && usage && exit 1
+
+# validate input: should be: (+|-)#
+if ! echo "$1" | grep -q "^[+|-][[:digit:]]\{1,\}$"; then
+    echo "Argument is invalid: $1" && exit 1
+fi
+
+brightness_delta="${1:1:$((${#1}-1))}"
+if [ "${1:0:1}" == "-" ]; then
+    brightness_delta=$((-1 * brightness_delta))
+fi
+
+backlight_basepath="/sys/class/backlight/"
+
+[ ! -d "$backlight_basepath" ] && echo "Backlight path does not exist: $backlight_basepath" && exit 1
+
+backlight_devices=$(ls "$backlight_basepath")
+
+backlight_device="$(echo "$backlight_devices" | cut -f 1)"
+
+[ -z "$backlight_device" ] && echo "No backlight device found: $backlight_basepath" && exit 1
+
+backlight_device_basepath="${backlight_basepath}${backlight_device}"
+backlight_device_brightness="${backlight_basepath}${backlight_device}/brightness"
+
+echo "Using backlight device: $backlight_device_basepath"
+
+current_brightness="$(cat "${backlight_device_brightness}")"
+max_brightness="$(cat "${backlight_device_basepath}"/max_brightness)"
+
+echo "Current brightness: $current_brightness"
+echo "Max brightness: $max_brightness"
+
+new_brightness=$((current_brightness + brightness_delta))
+if [ "$new_brightness" -gt "$max_brightness" ]; then
+    new_brightness=$max_brightness
+elif [ "$new_brightness" -lt 0 ]; then
+    new_brightness=0
+fi
+
+echo "New brightness: $new_brightness"
+
+echo "$new_brightness" > "$backlight_device_brightness" 2> /dev/null
+
+message_tag="setbrightness"
+new_brightness_percentage="$((100*$(cat "$backlight_device_brightness")/max_brightness))"
+dunstify -a "changeBrightness" -u low -i audio-volume-high -h string:x-dunst-stack-tag:$message_tag \
+    -h int:value:"${new_brightness_percentage}" "Brightness: ${new_brightness_percentage}%"

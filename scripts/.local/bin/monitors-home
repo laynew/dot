@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Internal + HDMI
+xrandr --output eDP --mode 2560x1600 --output HDMI-1-0 --mode 2560x1440 --right-of eDP
+
+xwallpaper --output all --zoom "$HOME/wallpaper.jpg"

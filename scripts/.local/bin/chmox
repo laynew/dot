@@ -1,0 +1,5 @@
+#!/bin/bash
+
+[ -z "$1" ] && echo "Usage: chmox <filename>" && exit 1
+
+chmod ug+x "$1"

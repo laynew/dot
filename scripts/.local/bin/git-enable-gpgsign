@@ -1,0 +1,11 @@
+#!/bin/bash
+
+gpgSigningKey=$(gpg --list-secret-keys --keyid-format long | grep '\[S\]' | grep -o '[[:alnum:]]\{16\}')
+
+[[ -z $gpgSigningKey ]] && echo "Could not find a gpg signing key" && exit 1
+
+echo "Found signing key: $gpgSigningKey, configuring gpgsign for git repo."
+git config --local user.signingkey "$gpgSigningKey" &&
+    git config --local commit.gpgsign true &&
+    echo "Done" ||
+    echo "Failed to enable gpgsign :("
