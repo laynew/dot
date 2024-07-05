@@ -1,0 +1,5 @@
+#!/bin/bash
+
+[[ -z $1 ]] && echo "Usage: $(basename $0) enable|disable|start|stop|status"
+
+systemctl --user "$1" syncthing.service
