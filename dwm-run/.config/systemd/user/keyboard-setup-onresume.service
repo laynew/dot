@@ -1,0 +1,11 @@
+[Unit]
+Description=Setup keyboard after resume
+After=suspend.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+ExecStart= /home/lw/.local/bin/dwm-run-setup-keyboard
+
+[Install]
+WantedBy=suspend.target
