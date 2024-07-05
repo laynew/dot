@@ -1,0 +1,78 @@
+#!/bin/bash
+
+text_green() {
+    printf "\033[32m"
+}
+
+text_red() {
+    printf "\033[31m"
+}
+
+text_reset() {
+    printf "\033[0m"
+}
+
+SRC_DIR="$HOME/src"
+
+cd "$SRC_DIR"
+
+declare -a non_repo_dirs
+declare -a no_origin_remote_dirs
+declare -A pending_change_dirs
+declare -a no_changes_dirs
+
+check_origin() {
+    path=$1
+
+    [[ -z $path ]] && exit 1;
+
+    remotes=$(git -C $path remote | wc -l);
+
+    [[ $remotes -le 0 ]] && no_origin_remote_dirs=( ${no_origin_remote_dirs[@]} $path )
+}
+
+for dir in $(ls $SRC_DIR); do
+    full_dir=$SRC_DIR/$dir
+
+    [[ ! -d $full_dir/.git ]] && non_repo_dirs=( ${non_repo_dirs[@]} $dir ) && continue
+
+    check_origin $full_dir;
+
+    cd "$full_dir"
+    changes=$(git status --short | wc -l)
+
+    if [[ $changes -gt 0 ]]; then
+        # pending_change_dirs=( ${pending_change_dirs[@]} $dir )
+        pending_change_dirs["$dir"]=$changes
+    else
+        no_changes_dirs=( ${no_changes_dirs[@]} $dir )
+    fi
+done
+
+echo "Git Repo Summary"
+echo "----------------"
+echo
+
+text_red
+echo "${#non_repo_dirs[@]} directories are NOT GIT REPOS"
+echo "${non_repo_dirs[@]}"
+text_reset
+echo
+
+text_red
+echo "${#pending_change_dirs[@]} repos with PENDING changes:"
+for x in ${!pending_change_dirs[@]}; do echo -e "\t $(printf "%3s" "${pending_change_dirs[$x]}") - $x"; done
+text_reset
+echo
+
+echo "${#no_origin_remote_dirs[@]} repos wth NO ORIGIN remote:"
+text_red
+echo "${no_origin_remote_dirs[@]}"
+text_reset
+echo
+
+
+text_green
+echo "${#no_changes_dirs[@]} repos have NO CHANGES"
+echo "${no_changes_dirs[@]}"
+text_reset
