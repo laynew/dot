@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Internal only
+INTERNAL_MONITOR="eDP"
+
+xrandr --output "$INTERNAL_MONITOR" --auto
+
+xrandr | grep "\<connected\>" | grep -v "$INTERNAL_MONITOR" | awk '{ print $1 }' | xargs -I {} xrandr --output {} --off;
+
+xwallpaper --output all --zoom "$HOME/wallpaper.jpg"
