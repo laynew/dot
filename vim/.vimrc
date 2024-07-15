@@ -30,10 +30,13 @@ set path+=**
 set wildignore=.git/*
 set wildmenu
 
+filetype plugin on
+filetype indent on
+
 let g:mapleader = " "
 
 nmap <Leader>vce :e ~/.vimrc<CR>
-nmap <Leader>vcr :source ~/.vimrc<CR>
+nmap <Leader>vcr :source ~/.vimrc<CR> :echo 'config reloaded'<CR>
 
 " disable arrow keys
 noremap <up> :echoerr "use k instead"<CR>
@@ -54,8 +57,13 @@ nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
-nmap <Leader>y "+yy
-vmap <Leader>y "+y
+if executable('toclip')
+    nmap <Leader>y "ayy :call system('toclip',getreg('"a'))<CR>
+    vmap <Leader>y :w !toclip<CR><CR>
+else
+    nmap <Leader>y "+yy
+    vmap <Leader>y "+y
+endif
 nmap <Leader>d "+dd
 vmap <Leader>d "+d
 
