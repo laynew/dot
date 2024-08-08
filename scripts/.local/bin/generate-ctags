@@ -1,0 +1,5 @@
+#!/bin/bash
+
+TAGS_LOCATION=~/.local/share/tags
+
+ctags -R -f "$TAGS_LOCATION" /usr/include
