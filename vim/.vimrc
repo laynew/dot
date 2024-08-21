@@ -59,7 +59,7 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> K <plug>(lsp-hover)
     nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+    "nnoremap <buffer> <expr><c-D> lsp#scroll(-4)
 
     " Autocomplete
     let g:asyncomplete_auto_popup = 1
@@ -121,6 +121,12 @@ vmap <Leader>d "+d
 " Buffers
 nmap <Leader>bn :bnext<CR>
 nmap <Leader>bd :bdelete<CR>
+
+" Quickfix List
+nnoremap <Leader>cc :cclose<CR>
+nnoremap <Leader>co :copen<CR>
+nnoremap <Leader>.  :cnext<CR>
+nnoremap <Leader>,  :cprevious<CR>
 
 " Disable Ex mode
 map Q gq
