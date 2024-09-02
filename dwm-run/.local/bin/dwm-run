@@ -6,8 +6,8 @@ xrdbpid=$(pidof xrdb)
 WALLPAPER=$HOME/wallpaper.jpg
 [ -r "$WALLPAPER" ] && xwallpaper --output all --zoom $HOME/wallpaper.jpg
 
-# start dwm status scripts
-[ -n "$(command autorefreshstatus)" ] && autorefreshstatus &
+# start dwmblocks
+[ -n "$(command dwmblocks)" ] && dwmblocks &
 
 # start compositor
 [ -n "$(command xcompmgr)" ] && pidof -sx xcompmgr || xcompmgr &
