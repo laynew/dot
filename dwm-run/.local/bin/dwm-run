@@ -34,4 +34,4 @@ WALLPAPER=$HOME/wallpaper.jpg
 
 log_dir="$HOME/.logs/dwm/"
 [[ ! -d $log_dir ]] && mkdir -p $log_dir
-/usr/local/bin/dwm >> "$log_dir/$(tmstmp).log" 2>&1
+/usr/local/bin/dwm >> "$log_dir/dwm.log" 2>&1
