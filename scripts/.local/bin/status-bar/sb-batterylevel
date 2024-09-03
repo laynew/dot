@@ -1,0 +1,7 @@
+#!/bin/bash
+
+level=$(cat /sys/class/power_supply/BAT0/capacity)
+
+[[ $level -gt 20 ]] && printf "🔋" || printf "🪫";
+printf " $level%%"
+
