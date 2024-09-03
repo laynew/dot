@@ -9,6 +9,7 @@
     transparency = 15
     font = DejaVu Sans Mono 16
     format = "<b>%s</b>\n%b"
+    icon_path = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/:/usr/share/icons/Adwaita/16x16/legacy/
 
 [urgency_low]
     background = "#1d2021"
