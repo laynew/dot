@@ -1,0 +1,17 @@
+#!/bin/bash
+
+TEA_FILE=/tmp/.tea
+
+[[ ! -f $TEA_FILE ]] && exit 0
+
+NOW=$(date +%s);
+TEA_TIME=$(head -n 1 < "$TEA_FILE")
+
+TEA_MINUS=$(($TEA_TIME - $NOW))
+
+[[ $TEA_MINUS -ge 0 ]] && echo "⏰ Tea ETA $(printf '%02d' $(($TEA_MINUS / 60))):$(printf '%02d' $(($TEA_MINUS % 60)))"
+
+[[ $TEA_MINUS -eq 0 ]] && dunstify -i alarm-symbolic.symbolic -u critical "Tea is READY" && [[ -f $HOME/.local/share/sounds/ping.mp3 ]] && mpg123 "$HOME/.local/share/sounds/ping.mp3"
+
+[[ $TEA_MINUS -ge -600 ]] && echo "⏰ TEA IS READY ($(($TEA_MINUS * -1))s)⏰"
+

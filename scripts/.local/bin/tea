@@ -1,0 +1,17 @@
+#!/bin/bash
+
+TEA_FILE=/tmp/.tea
+
+TEA_MINUTES=${1:-3}
+TEA_SECONDS=${2:-$(($TEA_MINUTES * 60))}
+
+[[ -f $TEA_FILE ]] && rm $TEA_FILE
+
+[[ $TEA_SECONDS -eq 0 ]] && echo "Tea off" && exit 0
+
+NOW=$(date +%s)
+TEA_TIME=$(($NOW + $TEA_SECONDS))
+
+echo "$TEA_TIME" > "$TEA_FILE"
+echo "Tea will be ready at $(date --date @$TEA_TIME +%H:%M)"
+
