@@ -1,0 +1,21 @@
+#!/bin/bash
+
+CONFIG_FILE="$HOME/.keepassxc-menu"
+
+[[ ! -f $HOME/.keepassxc-menu ]] && echo "Ensure $CONFIG_FILE exists" && exit
+
+KP_DB=$(grep "KP_DB" "$CONFIG_FILE" | cut -d'=' -f 2)
+KP_KEY=$(grep "KP_KEY" "$CONFIG_FILE" | cut -d'=' -f 2)
+KP_PWDNAME=$(grep "KP_PWDNAME" "$CONFIG_FILE" | cut -d'=' -f 2)
+
+[[ -z $KP_DB ]] && echo "Ensure $CONFIG_FILE contains KP_DB" && exit 1
+[[ -z $KP_KEY ]] && echo "Ensure $CONFIG_FILE contains KP_KEY" && exit 1
+[[ -z $KP_PWDNAME ]] && echo "Ensure $CONFIG_FILE contains KP_PWDNAME" && exit 1
+
+selected=$(echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli ls --recursive --flatten --key-file "$KP_KEY" "$KP_DB" | grep -v '/$' | dmenu -i)
+
+[[ -z $selected ]] && exit 1
+
+notify-send --expire-time=10000 "Password \"$selected\" copied to clipboard for 10s"
+
+echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli clip --key-file "$KP_KEY" "$KP_DB" "$selected"
