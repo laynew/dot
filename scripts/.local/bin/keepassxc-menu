@@ -1,6 +1,23 @@
 #!/bin/bash
 
 CONFIG_FILE="$HOME/.keepassxc-menu"
+KEEPASS_ATTR=password
+DMENU_PROMPT="Copy password"
+
+case $1 in
+"--totp")
+    KEEPASS_ATTR=totp
+    DMENU_PROMPT="Copy TOPT"
+    ;;
+"--name")
+    KEEPASS_ATTR=username
+    DMENU_PROMPT="Copy username"
+esac
+
+case $2 in
+"--stdout")
+    TOSTD_OUT=1
+esac
 
 [[ ! -f $HOME/.keepassxc-menu ]] && echo "Ensure $CONFIG_FILE exists" && exit
 
@@ -12,10 +29,11 @@ KP_PWDNAME=$(grep "KP_PWDNAME" "$CONFIG_FILE" | cut -d'=' -f 2)
 [[ -z $KP_KEY ]] && echo "Ensure $CONFIG_FILE contains KP_KEY" && exit 1
 [[ -z $KP_PWDNAME ]] && echo "Ensure $CONFIG_FILE contains KP_PWDNAME" && exit 1
 
-selected=$(echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli ls --recursive --flatten --key-file "$KP_KEY" "$KP_DB" | grep -v '/$' | dmenu -i)
+selected=$(echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli ls --quiet --recursive --flatten --key-file "$KP_KEY" "$KP_DB" | grep -v '/$' | dmenu -i -p "$DMENU_PROMPT" -l 15)
 
 [[ -z $selected ]] && exit 1
 
 notify-send --expire-time=10000 "Password \"$selected\" copied to clipboard for 10s"
 
-echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli clip --key-file "$KP_KEY" "$KP_DB" "$selected"
+echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli show --attribute "$KEEPASS_ATTR" --key-file "$KP_KEY" "$KP_DB" "$selected"
+echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli clip --attribute "$KEEPASS_ATTR" --key-file "$KP_KEY" "$KP_DB" "$selected"
