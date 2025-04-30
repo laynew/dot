@@ -1,0 +1,35 @@
+#!/bin/bash
+
+SCRIPT_NAME=$1;
+
+usage()
+{
+    echo "Create a new executable file in dot files scripts package"
+    echo "  Usage: newx <script_name>"
+}
+
+file_size() {
+    echo "$(cat $1 | wc -c)"
+}
+
+[[ -z $SCRIPT_NAME ]] && usage && exit 1
+
+SCRIPT_LOCATION="$HOME/src/dot/scripts/.local/bin"
+SCRIPT_PATH="$SCRIPT_LOCATION/$SCRIPT_NAME"
+
+[[ ! -d $SCRIPT_LOCATION ]] && echo "Script location does not exist: $SCRIPT_LOCATION" && exit 1
+[[ -f $SCRIPT_PATH ]] && echo "Script already exists: $SCRIPT_PATH" && exit 1
+
+echo -e "#!/bin/bash\n\n" >> "$SCRIPT_PATH"
+chmod u+x "$SCRIPT_PATH"
+
+INITIAL_FILE_SIZE=$(file_size $SCRIPT_PATH)
+
+vim "$SCRIPT_PATH" -c startinsert +
+
+CURRENT_FILE_SIZE=$(file_size $SCRIPT_PATH)
+
+[[ $CURRENT_FILE_SIZE -le $INITIAL_FILE_SIZE ]] && echo "No changes made, deleting script" && rm "$SCRIPT_PATH" && exit 1
+
+echo "Script created: $SCRIPT_PATH"
+echo "Remember to restow scripts package to make script available"
