@@ -1,0 +1,18 @@
+#!/bin/bash
+
+SRC_DIR="$HOME/src"
+
+selected_dir="$(find $SRC_DIR -maxdepth 1 -type d -printf '%f\n' |
+    sort |
+    dmenu -i -l 10 -p "Select source dir:")"
+
+target_dir="${SRC_DIR}/${selected_dir}"
+
+[[ ! -d $target_dir ]] && exit 1
+
+session_name="$selected_dir"
+tmux new-session -d -s "$session_name" -c "$target_dir"
+tmux new-window -d -t "$session_name" -c "$target_dir" -n vim vim "$target_dir"
+tmux new-window -d -t "$session_name" -c "$target_dir" -n git lazygit
+
+[[ -v TMUX ]] && tmux switch-client -t "$session_name" || tmux attach -t "$session_name"
