@@ -96,6 +96,7 @@ alias l='ls -CF'
 alias cls='clear'
 alias s='systemctl'
 alias lgit='lazygit'
+alias info='info --vi-keys'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
