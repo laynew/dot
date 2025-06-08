@@ -19,7 +19,7 @@ WALLPAPER=$HOME/wallpaper.jpg
 [ -n "$(command nm-applet)" ] && pidof -xs nm-applet || nm-applet &
 
 # configure monitors
-[ -n "$(command monitors-work)" ] && monitors-work
+[ -n "$(command monitors-home-2)" ] && monitors-home-2
 
 # Set key repeat rate and switch caps/escape
 [ -n "$(command dwm-run-setup-keyboard)" ] && dwm-run-setup-keyboard
