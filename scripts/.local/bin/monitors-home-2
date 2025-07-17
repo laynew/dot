@@ -1,8 +1,15 @@
 #!/bin/bash
 
+# builtin_display="eDP-1-0"
+builtin_display="eDP"
+# dp_display="DP-0"
+dp_display="DP-1-0"
+# hdmi_display="HDMI-0"
+hdmi_display="HDMI-1-0"
+
 # Internal + HDMI
-xrandr --output DP-0 --mode 2560x1440 --right-of eDP-1-0
+xrandr --output "$dp_display" --mode 2560x1440 --right-of "$builtin_display"
 sleep 1;
-xrandr --output HDMI-0 --mode 2560x1440 --right-of DP-0
+xrandr --output "$hdmi_display" --mode 2560x1440 --right-of "$dp_display"
 sleep 1;
 xwallpaper --output all --zoom "$HOME/wallpaper.jpg"
