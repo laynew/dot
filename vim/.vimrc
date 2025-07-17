@@ -6,26 +6,45 @@ endif
 set t_Co=256
 set encoding=utf-8
 
+"Styles
 set background=dark
-set nohlsearch
+highlight CursorLine term=none cterm=none ctermbg=234
+highlight CursorLineNr term=none cterm=bold ctermbg=195 ctermfg=0
+
+" Basic settings
 set hidden
-set incsearch
 set laststatus=2
-set list
-set listchars=tab:\\u21a6\ ,trail:\\xb7
 set number
 set relativenumber
 set scrolloff=8
 set splitbelow
 set splitright
 set tags+=~/.local/share/tags
+set mouse=a
 
+" Vim files
+set nobackup
+set noswapfile
+set undofile
+set undodir=~/.vim/undodir
+
+" Visual settings
+set colorcolumn=100
+set cursorline
+set list
+set listchars=tab:\\u21a6\ ,trail:\\xb7
+
+" Indentation
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-
 set smartindent
+set autoindent
+
+" Search
+set incsearch
+set nohlsearch
 set path+=**
 set wildignore=.git/*
 set wildmenu
@@ -88,8 +107,7 @@ nmap <Leader>vcr :source ~/.vimrc<CR> :echo 'config reloaded'<CR>
 nnoremap <C-b> <Esc>:Lex<CR>:vertical resize 30<CR>
 inoremap <C-b> <Esc>:Lex<CR>:vertical resize 30<CR>
 
-
-" disable arrow keys
+" Disable arrow keys
 noremap <up> :echoerr "use k instead"<CR>
 noremap <down> :echoerr "use j instead"<CR>
 noremap <left> :echoerr "use h instead"<CR>
@@ -102,6 +120,12 @@ nnoremap <C-d> <C-d>zz
 " Reselect visual selecion after un/indent
 vnoremap > >gv
 vnoremap < <gv
+
+" Moving lines
+nmap <C-j> :move .+1<CR>==
+nmap <C-k> :move .-2<CR>==
+vmap <C-j> :move '>+1<CR>gv=gv
+vmap <C-k> :move '<-2<CR>gv=gv
 
 " Global copy/paste with <Leader>pPyYd etc
 nmap <Leader>p "+p
