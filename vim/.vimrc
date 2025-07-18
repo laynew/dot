@@ -121,6 +121,10 @@ nnoremap <C-d> <C-d>zz
 vnoremap > >gv
 vnoremap < <gv
 
+" Insert comment
+nmap <Leader>/ :norm I
+vmap <Leader>/ :norm I
+
 " Moving lines
 nmap <C-j> :move .+1<CR>==
 nmap <C-k> :move .-2<CR>==
