@@ -58,8 +58,20 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+! command -v __git_ps1 && . /usr/share/git/completion/git-prompt.sh
+
+get_color () {
+	hash_code="$(echo $1 | cksum | awk '{print $1}')"
+	fg_color="$(( hash_code % 256 ))"
+	echo "$fg_color"
+}
+fg_color="$(get_color $(cat /etc/hostname))"
+COL_HOST="\[\033[38;05;${fg_color}m\]";
+COL_USER="\[\033[38;05;$(get_color $USER)m\]";
+COL_RESET="\[\033[00m\]"
+COL_BLUE="\[\033[01;34m\]"
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1)\$ '
+    PS1="${debian_chroot:+($debian_chroot)}[${COL_USER}\u${COL_RESET}@${COL_HOST}\h${COL_RESET}:${COL_BLUE}\w${COL_RESET}$(__git_ps1)]\$ "
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
