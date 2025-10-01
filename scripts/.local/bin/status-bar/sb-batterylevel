@@ -1,15 +1,20 @@
 #!/bin/bash
 
-level=$(cat /sys/class/power_supply/BAT0/capacity)
-state=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep state | awk '{print $2}')
+for bat in $(ls -d /sys/class/power_supply/BAT*); do
 
-if [[ $state == "charging" || $state == "fully-charged" ]]; then
-    printf "🔌"
-elif [[ $level -gt 20 ]]; then
-    printf "🔋"
-else
-    printf "🪫";
-fi
+    bat_name=$(basename $bat)
+
+    level=$(cat $bat/capacity)
+    state=$(upower -i /org/freedesktop/UPower/devices/battery_${bat_name} | grep state | awk '{print $2}')
+
+    if [[ $state == "charging" || $state == "fully-charged" ]]; then
+        printf "🔌"
+    elif [[ $level -gt 20 ]]; then
+        printf "🔋"
+    else
+        printf "🪫";
+    fi
 
 printf " $level%%"
+done
 
