@@ -21,6 +21,7 @@ set splitbelow
 set splitright
 set tags+=~/.local/share/tags
 set mouse=a
+set autoread
 
 " Vim files
 set nobackup
