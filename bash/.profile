@@ -1,35 +1,23 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
+#
+# ~/.profile
+#
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
+echo "[$(date +%Y%m%d%H%M%S)] loaded ~/.profile" >> ~/.mylog
 
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWUPSTREAM="auto"
+#quit if not tty. ensures only loaded once in login shell
+[[ ! $(tty) =~ '/dev/tty' ]] && echo "[$(date +%Y%m%d%H%M%S)] skip ~/.profile, not a tty" >> ~/.mylog && return
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
+# Load and save ssh-agent config if not running
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+	ssh_agent="$(ssh-agent -s)"
+	echo "$ssh_agent" > "$HOME/.ssh-agent-env"
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
+[[ -f $HOME/.ssh-agent-env ]] && . "$HOME/.ssh-agent-env"
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
+export EDITOR=vim
 
-if [ -d "$HOME/.local/bin/status-bar" ] ; then
-    PATH="$HOME/.local/bin/status-bar:$PATH"
-fi
+[[ -d $HOME/.local/bin ]] && export PATH="$HOME/.local/bin:$PATH"
+
+[[ -d $HOME/.local/bin/status-bar ]] && export PATH="$HOME/.local/bin/status-bar:$PATH"
 

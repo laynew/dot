@@ -1,6 +1,7 @@
 #!/bin/sh
 
-[ -f "$HOME/.xprofile" ] && . $HOME/.xprofile
+echo "[$(date +%Y%m%d%H%M%S)] loaded ~/.xinitrc" >> ~/.mylog
 
-ssh-agent dwm
+[[ -f $HOME/.xprofile ]] && . "${HOME}/.xprofile"
 
+exec dwm
