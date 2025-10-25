@@ -32,7 +32,7 @@ COL_HOST="\[\033[38;5;${fg_color}m\]";
 COL_USER="\[\033[38;5;$(get_color $USER)m\]";
 COL_RESET="\[\033[0m\]"
 COL_BLUE="\[\033[01;34m\]"
-PS1="[${COL_USER}\u${COL_RESET}@${COL_HOST}\h${COL_RESET}:${COL_BLUE}\w${COL_RESET}$(__git_ps1)] \\$ "
+PS1="[${COL_USER}\u${COL_RESET}@${COL_HOST}\h${COL_RESET}:${COL_BLUE}\w${COL_RESET}\$(__git_ps1)] \\$ "
 
 [[ $(tty) = "/dev/tty1" ]] && startx
 
