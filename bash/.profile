@@ -16,6 +16,7 @@ fi
 [[ -f $HOME/.ssh-agent-env ]] && . "$HOME/.ssh-agent-env"
 
 export EDITOR=vim
+export LIBVIRT_DEFAULT_URI=qemu:///session
 
 [[ -d $HOME/.local/bin ]] && export PATH="$HOME/.local/bin:$PATH"
 
