@@ -126,6 +126,9 @@ vnoremap < <gv
 nmap <Leader>/ :norm I
 vmap <Leader>/ :norm I
 
+" Replace word
+nmap <Leader>rw yiw:%s/"//gcODODOD
+
 " Moving lines
 nmap <C-j> :move .+1<CR>==
 nmap <C-k> :move .-2<CR>==
