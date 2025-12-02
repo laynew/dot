@@ -16,18 +16,59 @@ function! s:SmartRun()
     endif
 endfunction
 
+" compile and open if errors
+function! s:SmartCompile()
+    write
+    make
+    if ! empty(getqflist())
+        copen
+    else
+        cclose
+    endif
+endfunction
+
 " compile then run if no errors
 function! CompileAndRun()
     write
     make
-    copen
-    if empty(getqflist({'idx':0}).items)
+    if empty(getqflist())
         call <SID>SmartRun()
+    else
+        copen
+    endif
+endfunction
+
+function! s:ToggleLineComment()
+    let l:line = getline('.')
+
+    if l:line =~ '^\s*//'
+        echo "comment line"
+        normal _dw
+    else
+        echo "not a comment line"
+        normal _I// 
     endif
 endfunction
 
 command! -buffer Run :make<CR> | call <SID>SmartRun()
 command! -buffer CompileAndRun :make<CR> | call <SID>SmartRun()
+command! -buffer Compile call <SID>SmartCompile()
+command! -buffer ToggleLineComment call <SID>ToggleLineComment()
 
-nnoremap <F6> :w<CR>:make<CR>:copen<CR>
-nnoremap <F5> :CompileAndRun<CR>
+nnoremap <buffer> <F6> :Compile<CR>
+nnoremap <buffer> <F5> :CompileAndRun<CR>
+
+nmap <buffer> <Leader>jj /^\i\+ [a-zA-z0-9*_]\+(.*)<CR>
+nmap <buffer> <Leader>kk ?^\i\+ [a-zA-z0-9*_]\+(.*)<CR>
+
+nnoremap <Leader><M-/> :ToggleLineComment<CR>
+nnoremap <Leader><C-/> :ToggleLineComment<CR>
+nnoremap <Leader>// :ToggleLineComment<CR>
+
+nmap <Leader>gt :!ctags -f tags *.c<CR>
+nmap <Leader>sp :execute 'ptjump ' . expand('<cword>')<CR>
+nmap <Leader>hp :pclose<CR>
+
+nmap <Leader>- zfi{
+nmap <Leader>= zo
+
