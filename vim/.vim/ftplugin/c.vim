@@ -2,7 +2,7 @@
 if filereadable(getcwd() . '/build.sh')
     setlocal makeprg=sh\ build.sh
 else
-    setlocal makeprg=gcc\ -o\ %<\ %
+    setlocal makeprg=gcc\ -g\ -o\ %<\ %
 endif
 
 " run command execute ./main or run.sh if it exists
