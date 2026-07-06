@@ -3,15 +3,18 @@
 CONFIG_FILE="$HOME/.keepassxc-menu"
 KEEPASS_ATTR=password
 DMENU_PROMPT="Copy password"
+NOTIFY_MSG="Password"
 
 case $1 in
 "--totp")
     KEEPASS_ATTR=totp
     DMENU_PROMPT="Copy TOPT"
+    NOTIFY_MSG="OTP"
     ;;
 "--name")
     KEEPASS_ATTR=username
     DMENU_PROMPT="Copy username"
+    NOTIFY_MSG="Username"
 esac
 
 case $2 in
@@ -33,7 +36,7 @@ selected=$(echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli ls --quiet --recurs
 
 [[ -z $selected ]] && exit 1
 
-notify-send --expire-time=10000 "Password \"$selected\" copied to clipboard for 10s"
+notify-send --expire-time=10000 "$NOTIFY_MSG \"$selected\" copied to clipboard for 10s"
 
 echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli show --attribute "$KEEPASS_ATTR" --key-file "$KP_KEY" "$KP_DB" "$selected"
 echo "$(pass show "$KP_PWDNAME")" | keepassxc-cli clip --attribute "$KEEPASS_ATTR" --key-file "$KP_KEY" "$KP_DB" "$selected"
