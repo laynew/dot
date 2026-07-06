@@ -68,22 +68,22 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gs <plug>(lsp-document-symbol-search)
-    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
+    nnoremap <buffer> gd <plug>(lsp-definition)
+    nnoremap <buffer> gs <plug>(lsp-document-symbol-search)
+    nnoremap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nnoremap <buffer> gr <plug>(lsp-references)
+    nnoremap <buffer> gi <plug>(lsp-implementation)
+    nnoremap <buffer> gt <plug>(lsp-type-definition)
+    nnoremap <buffer> <leader>rn <plug>(lsp-rename)
+    nnoremap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nnoremap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nnoremap <buffer> K <plug>(lsp-hover)
     nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
     "nnoremap <buffer> <expr><c-D> lsp#scroll(-4)
 
     " Autocomplete
     let g:asyncomplete_auto_popup = 1
-    imap <buffer> <C-j> <Plug>(asyncomplete_force_refresh)
+    inoremap <buffer> <C-j> <Plug>(asyncomplete_force_refresh)
     inoremap <buffer> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <buffer> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
     inoremap <buffer> <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
@@ -103,8 +103,9 @@ augroup END
 " Keybinds
 let g:mapleader = " "
 
-nmap <Leader>vce :e ~/.vimrc<CR>
-nmap <Leader>vcr :source ~/.vimrc<CR> :echo 'config reloaded'<CR>
+nnoremap <Leader>vce :e $MYVIMRC<CR>
+nnoremap <Leader>vvce :vsplit $MYVIMRC<CR>
+nnoremap <Leader>vcr :source $MYVIMRC<CR> :echo 'config reloaded'<CR>
 nnoremap <C-b> <Esc>:Lex<CR>:vertical resize 30<CR>
 inoremap <C-b> <Esc>:Lex<CR>:vertical resize 30<CR>
 
@@ -123,36 +124,36 @@ vnoremap > >gv
 vnoremap < <gv
 
 " Insert comment
-nmap <Leader>/ :norm I
-vmap <Leader>/ :norm I
+nnoremap <Leader>/ :norm I
+vnoremap <Leader>/ :norm I
 
 " Replace word
-nmap <Leader>rw yiw:%s/"//gcODODOD
+nnoremap <Leader>rw yiw:%s/"//gcODODOD
 
 " Moving lines
-nmap <C-j> :move .+1<CR>==
-nmap <C-k> :move .-2<CR>==
-vmap <C-j> :move '>+1<CR>gv=gv
-vmap <C-k> :move '<-2<CR>gv=gv
+nnoremap <C-j> :move .+1<CR>==
+nnoremap <C-k> :move .-2<CR>==
+vnoremap <C-j> :move '>+1<CR>gv=gv
+vnoremap <C-k> :move '<-2<CR>gv=gv
 
 " Global copy/paste with <Leader>pPyYd etc
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
 if executable('toclip')
-    nmap <Leader>y "ayy :call system('toclip',getreg('"a'))<CR>
-    vmap <Leader>y :w !toclip<CR><CR>
+    nnoremap <Leader>y "ayy :call system('toclip',getreg('"a'))<CR>
+    vnoremap <Leader>y :w !toclip<CR><CR>
 else
-    nmap <Leader>y "+yy
-    vmap <Leader>y "+y
+    nnoremap <Leader>y "+yy
+    vnoremap <Leader>y "+y
 endif
-nmap <Leader>d "+dd
-vmap <Leader>d "+d
+nnoremap <Leader>d "+dd
+vnoremap <Leader>d "+d
 
 " Buffers
-nmap <Leader>bn :bnext<CR>
-nmap <Leader>bd :bdelete<CR>
+nnoremap <Leader>bn :bnext<CR>
+nnoremap <Leader>bd :bdelete<CR>
 
 " Quickfix List
 nnoremap <Leader>cc :cclose<CR>
